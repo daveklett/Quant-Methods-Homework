@@ -1,0 +1,47 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r}
+ 
+tgpp <- read.csv(file = "tgpp.csv", sep = ",", header = TRUE)
+
+names(tgpp)
+
+#1. The column names are "plot" "year" "record_id" "corner" "scale" "richness"  "easting" "northing" "slope" "ph" "yrsslb" 
+
+nrow(tgpp)
+
+ncol(tgpp)
+
+#2. There are 4080 rows and 11 columns
+
+sapply(tgpp,typeof)
+
+#3. The objects of each column are integer for plot, year, record id, corner, richness, easting, northing, slope and double for scale, ph, and yrsslb.
+
+tgpp[c(1,5,8), c(3,5,10)]
+
+#4. The values of the datafile for row are 
+# 1	187	100	6.9	
+# 5	191	10	6.9	
+# 8	194	1	6.9	
+
+pdf('~./Quant Methods/pdftgpp1.pdf')
+par(mfrow = c(2,1))
+plot(tgpp$scale, tgpp$richness, xlab='Scale',
+     ylab='Richness', frame.plot=F, col='blue', pch=2, cex=2)
+dev.off()
+
+pdf('~./Quant Methods/pdftgpp.pdf')
+par(mfrow = c(2,1))
+plot(tgpp$scale, tgpp$richness, xlab='Scale',
+     ylab='Richness', frame.plot=F, col='blue', pch=2, cex=2, log='xy')
+dev.off()
+
+#1. If you set the plot argument log = xy, the scale of the x-axis
+# becomes log fixed, making the data easier to examine.
+```
+
