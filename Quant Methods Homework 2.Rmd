@@ -1,0 +1,108 @@
+```{r}
+data.frame(iris)
+head(iris)
+
+#unique(iris$Species) tells me there are 3 unique species
+sp_ids = unique(iris$Species)
+
+#output makes an empty matrix of 3x4
+output = matrix(0, nrow=length(sp_ids), ncol=ncol(iris)-1)
+rownames(output) = sp_ids
+colnames(output) = names(iris[ , -ncol(iris)])
+
+for(i in seq_along(sp_ids)) {
+    iris_sp = subset(iris, subset=Species == sp_ids[i], select=-Species)
+    for(j in 1:(ncol(iris_sp))) {
+        x = 0
+        y = 0
+        if (nrow(iris_sp) > 0) {
+            for(k in 1:nrow(iris_sp)) {
+                x = x + iris_sp[k, j]
+                y = y + 1
+            }
+            output[i, j] = x / y 
+        }
+    }
+}
+output
+
+
+
+# 1. Describe the values stored in the object output. In other 
+# words what did the loops create?
+# The loop created a matrix that shows the average of a subset
+# of each character trait of the different species
+
+# 2.Loop from 1 to length of species identities
+# Take a subset of iris data 
+# Loop from 1 to number of columns of the iris data
+# x and y are set to 0
+# If the first sample of the subset is greater than zero, then
+# loop row 1, x + the value in the cell [k,j], which becomes # new x and y + 1, which becomes new y.
+# The output is the x / y caculation
+
+# 3. Output could be renamed "mean", x could be sum, and y 
+# could be total number in subset.
+
+#4. Output could be re-coded to be 
+
+for(i in seq_along(sp_ids)) {
+    iris_sp = subset(iris, subset=Species == sp_ids[i], select=-Species)
+    for(i in 1:(ncol(iris_sp))) {
+        x = 0
+        y = 0
+        if (nrow(iris_sp) > 0) {
+            for(k in 1:nrow(iris_sp)) {
+                x = x + iris_sp[k, j]
+                y = y + 1
+            }
+            output[i, j] = x / y 
+        }
+    }
+}
+output
+
+
+
+
+
+# 5. 
+
+x <- c(1:10)
+x
+y = NULL
+for(i in 1:length(x))    {
+    y[i] <- sum(x[1:i])
+}
+y
+
+
+# 6.
+
+x <- c(1:10)
+x
+y = NULL
+for(i in 1:length(x))    {
+    y[i] <- sum(x[1:i])
+      if(y[i] > 10)    {
+        y[i] <- NA
+      }
+}
+y
+
+# 7.
+
+sum_function <- function(x)    {
+  x
+y = NULL
+for(i in 1:length(x))    {
+    y[i] <- sum(x[1:i])
+}
+y
+}
+sum_function(1:100)
+
+
+
+```
+
