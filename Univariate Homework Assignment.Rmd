@@ -1,0 +1,20 @@
+Univariate Homework Assignment
+
+1.
+```{r}
+trees <- read.csv('https://raw.githubusercontent.com/dmcglinn/quant_methods/gh-pages/data/treedata_subset.csv')
+
+str(trees)
+
+main_mod = lm(fruit_mass_mg ~ trt + plant_ht_cm, data = weeds)
+
+my_mod <- lm(trees$cover ~ trees$species == 'Abies fraseri', data = trees)
+my_mod
+
+library(car)
+Anova(my_mod, type = 3)
+summary(my_mod)
+
+treecover <- with(trees,tapply(cover,list(plotID,species), mean))
+ifelse(is.na(treecover),0,treecover)
+```
