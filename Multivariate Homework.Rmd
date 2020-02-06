@@ -1,0 +1,59 @@
+2/4/20 Multivariate Analysis Notes
+
+
+```{r}
+# number 1 pca and NMDS
+library(vegan)
+data(dune)
+data(dune.env)
+?dune
+dune
+
+
+dune_pca = rda(dune, scale=TRUE)
+dune_pca
+str(dune_pca)
+dune_pca$
+dune_pca$tot.chi
+dune_pca$CA$eig
+sum(dune_pca$CA$eig)
+round(dune_pca$CA$eig / dune_pca$tot.chi, 2)
+plot(dune_pca)
+biplot(dune_pca)
+cleanplot.pca(dune_pca)
+
+ordiplot(dune_pca, display = 'sp')
+orditorp(dune_pca, display = 'sp')
+
+dune_mds <- metaMDS(dune)
+plot(dunes_mds)
+
+plot(dune_mds, type='n')
+ text(dune_mds, 'sp', cex=.5)
+ # generate vector of colors 
+ color_vect = rev(terrain.colors(6))[-1]
+ points(dune_mds, 'sites', pch=19, 
+        col=color_vect[dune.env$Moisture])
+ legend('topright', paste("Moisture =", 1:5, sep=''), 
+        col=color_vect, pch=19)
+ 
+ # RDA number 2
+ rda_dune <- rda(dune, dune.env)
+ rda_dune
+
+ RsquareAdj(rda_dune)
+ 
+ plot(rda_dune, type='n', scaling=1)
+orditorp(rda_dune, display='sp', cex=0.5, scaling=1, col='blue')
+text(rda_dune, display='cn', col='red')
+
+dune.env$Use
+dune.env$Use <- factor(dune.env$Use, levels = c(Hayfield,Haypastu,Pasture), ordered = FALSE)
+
+dune.env$A1
+dune.env$Moisture
+
+dune.env$Management
+dune.env$Manure
+
+```
