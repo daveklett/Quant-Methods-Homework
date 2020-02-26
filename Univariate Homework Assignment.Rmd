@@ -6,15 +6,81 @@ trees <- read.csv('https://raw.githubusercontent.com/dmcglinn/quant_methods/gh-p
 
 str(trees)
 
-main_mod = lm(fruit_mass_mg ~ trt + plant_ht_cm, data = weeds)
+plot(trees$cover ~ trees$species == "Abies fraseri")
+plot(trees$cover ~ trees$species == "Acer rubrum")
+
+library(car)
 
 my_mod <- lm(trees$cover ~ trees$species == 'Abies fraseri', data = trees)
 my_mod
-
-library(car)
 Anova(my_mod, type = 3)
 summary(my_mod)
+
+my_mod1 <- lm(trees$cover ~ trees$species == 'Acer rubrum', data = trees)
+my_mod1
+Anova(my_mod1, type = 3)
+summary(my_mod1)
+
+my_mod2 <- lm(trees$cover ~ trees$elev + trees$tci + trees$streamdist + trees$beers + trees$disturb, data = trees)
+my_mod2
+Anova(my_mod2, type = 3)
+summary(my_mod2)
+
+my_mod3 <- lm(trees$cover ~ trees$species, data = trees)
+my_mod3
+Anova(my_mod, type = 3)
+summary(my_mod3)
+
+library(car)
 
 treecover <- with(trees,tapply(cover,list(plotID,species), mean))
 ifelse(is.na(treecover),0,treecover)
 ```
+The p-values generated using Anova and summary are extremely similar (5.545e-11 and 5.55e-11).
+The exploratory model looks to explain cover well.
+The most important explanatory variable seems to be elevation.
+Based on model 3, it looks like you can explain variance better in certain species based on the p-values, perhaps due to the differences in amount of samples for each species.
+
+
+
+
+2.
+```{r}
+acer_poi = glm(trees$cover ~ trees$elev + trees$tci + trees$streamdist + trees$beers + trees$disturb, data = trees, family='poisson')
+
+acer_poi
+pseudo_r2 = function(glm_mod) {
+                1 -  glm_mod$deviance / glm_mod$null.deviance
+            }
+pseudo_r2(acer_poi)
+
+AIC(acer_poi)
+AIC(my_mod2)
+```
+
+Changing the error distribution changed the most important explanatory variable to be streamdist, not elev.It did not really improve the model, as the R^2 value stayed pretty much the same, and the AIC for the 2 models were similar, though the acer_poi was lower, meaning it was a better model.
+
+
+
+
+
+3. I have found that elevation and stream distribution are important explanatory factors for tree cover in this dataset. Changing the error distribution does affect which factors are more important. It does seem that the other factors in this dataset do not have a large effect on cover compared to elevation and stream distribuation, which makes sense, as water and oxygen levels are important biologically for trees to grow.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
